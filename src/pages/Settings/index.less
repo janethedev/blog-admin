@@ -1,0 +1,86 @@
+/**
+ * 系统设置页面样式
+ */
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+
+  .avatar-preview {
+    margin-bottom: 16px;
+    border: 2px solid #f0f0f0;
+  }
+
+  .avatar-tips {
+    margin-top: 16px;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+
+    p {
+      margin: 4px 0;
+    }
+  }
+}
+
+.user-info {
+  .info-item {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #666;
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .value {
+      color: #333;
+      font-weight: 500;
+    }
+  }
+}
+
+.password-tips {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f6f8fa;
+  border-radius: 4px;
+  color: #666;
+
+  h4 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 14px;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+
+    li {
+      margin: 8px 0;
+      font-size: 13px;
+    }
+  }
+}
+
+// 响应式适配
+@media (max-width: 768px) {
+  .avatar-section {
+    padding: 16px 0;
+
+    .avatar-preview {
+      width: 100px !important;
+      height: 100px !important;
+    }
+  }
+}
+

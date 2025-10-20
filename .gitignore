@@ -1,0 +1,94 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+**/node_modules
+node_modules/
+pnpm-lock.yaml
+.pnpm-store/
+# roadhog-api-doc ignore
+/src/utils/request-temp.js
+_roadhog-api-doc
+
+# production
+/dist
+/build
+build
+
+# umi
+.umi
+.umi-production
+.umi-test
+
+# environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# testing
+/coverage
+.nyc_output
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# typescript
+*.tsbuildinfo
+.tsbuildinfo
+
+# cache
+.cache
+.eslintcache
+.stylelintcache
+.biome-cache/
+
+# temporary files
+.temp
+.temp/**
+*.tmp
+*.bak
+*bak
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and editors
+.vscode
+.idea
+*.iml
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history
+
+# lock files (optional - 根据团队需求决定是否提交)
+yarn.lock
+package-lock.json
+
+# misc
+screenshot
+.firebase
+functions/*
+
+# specific files
+.cursorrules
+开发文档.md
