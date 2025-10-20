@@ -8,6 +8,7 @@ import type {
   LoginResult,
   CurrentUser,
   ApiResponse,
+  ApiErrorResponse,
 } from '@/types';
 import { API_PATHS } from '@/constants';
 
@@ -15,7 +16,7 @@ import { API_PATHS } from '@/constants';
  * 用户登录
  */
 export async function login(params: LoginParams) {
-  return request<ApiResponse<LoginResult>>(API_PATHS.AUTH.LOGIN, {
+  return request<ApiResponse<LoginResult> | ApiErrorResponse>(API_PATHS.AUTH.LOGIN, {
     method: 'POST',
     data: params,
   });

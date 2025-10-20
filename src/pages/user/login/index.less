@@ -1,107 +1,513 @@
 /**
- * 登录页面样式
+ * 登录页面样式 - 根据 Figma Login2 设计稿实现
+ * 设计稿: https://www.figma.com/design/fEDnRxBAMkll062ZlZAEZ3/Login-登录页--Community-?node-id=4135-624
  */
 
-.container {
-  display: flex;
-  flex-direction: column;
+/* ========== 设计规范 ========== */
+:root {
+  /* 品牌色 */
+  --brand-primary: #165DFF;
+
+  /* 文本颜色 */
+  --text-title: #0A1B39;
+  --text-secondary: #83899F;
+
+  /* 背景色 */
+  --bg-white: #FFFFFF;
+  --line-divider: #C9CDD4;
+}
+
+/* ========== 整体容器 ========== */
+.loginContainer {
+  position: relative;
+  width: 100%;
   height: 100vh;
-  overflow: auto;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  overflow: hidden;
+  background: linear-gradient(93deg, #E2F0FF 0%, #FFFFFF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.content {
-  flex: 1;
-  padding: 32px 0;
+/* ========== 背景插图层 ========== */
+.loginLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgImage {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1200px;
+  height: 800px;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ========== 登录表单区域（白色背景）========== */
+.loginRight {
+  position: relative;
+  z-index: 1;
+  width: 720px;
+  height: 780px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 148px;
+  padding-left: 153px;
+  background: #FFFFFF;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+}
+
+.loginFormWrapper {
+  width: 440px;
+}
+
+/* ========== Logo 和标题 ========== */
+.loginHeader {
+  margin-bottom: 40px;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  background: #165DFF;
+  border-radius: 6.22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.loginTitle {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 44px;
+  color: #0A1B39;
+  margin: 0;
+}
+
+/* ========== 登录方式切换 Tabs ========== */
+.loginTabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tabItem {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #0A1B39;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: all 0.3s ease;
+  user-select: none;
+
+  &:hover {
+    color: #165DFF;
+  }
+
+  &.tabActive {
+    font-weight: 500;
+    color: #165DFF;
+  }
+}
+
+.tabDivider {
+  width: 0;
+  height: 18px;
+  border-left: 1px solid #C9CDD4;
+}
+
+/* ========== 表单区域 ========== */
+.loginForm {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 24px;
+}
+
+/* 输入框容器 */
+.inputWrapper {
+  background: #F2F3F5;
+  border-radius: 6px;
+  padding: 9px 12px;
+  height: 42px;
+  display: flex;
   align-items: center;
-}
+  transition: all 0.3s ease;
 
-:global {
-  .ant-pro-form-login-page-container {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    min-width: 400px;
+  &:hover {
+    background: #E8EAED;
   }
 
-  .ant-pro-form-login-page-logo {
-    width: 64px;
-    height: 64px;
-  }
-
-  .ant-pro-form-login-page-title {
-    font-size: 28px;
-    font-weight: 600;
-    color: #1f2937;
-    margin-top: 16px;
-  }
-
-  .ant-pro-form-login-page-subtitle {
-    color: #6b7280;
-    font-size: 14px;
-    margin-top: 8px;
-    margin-bottom: 32px;
-  }
-
-  .ant-pro-form-login-page-submit-button {
-    width: 100%;
-    height: 44px;
-    font-size: 16px;
-    border-radius: 8px;
-  }
-}
-
-.footer {
-  margin-top: 32px;
-  text-align: center;
-}
-
-.tips {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  padding: 20px 32px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-
-  p {
-    margin: 8px 0;
-    color: #4b5563;
-    font-size: 14px;
-
-    &:first-child {
-      font-weight: 600;
-      color: #1f2937;
-      margin-bottom: 12px;
-    }
-  }
-}
-
-// 响应式设计
-@media (max-width: 768px) {
-  .content {
-    padding: 16px;
+  &:focus-within {
+    background: #FFFFFF;
+    box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.1);
   }
 
   :global {
-    .ant-pro-form-login-page-container {
-      min-width: auto;
+    .ant-pro-form-item {
+      margin-bottom: 0;
+  flex: 1;
       width: 100%;
-      max-width: 400px;
-      padding: 24px;
+      display: flex;
+      align-items: center;
     }
-  }
 
-  .tips {
-    padding: 16px 24px;
+    .ant-form-item {
+      margin-bottom: 0;
+      width: 100%;
+    }
 
-    p {
-      font-size: 13px;
+    .ant-form-item-control-input {
+      min-height: auto;
+      width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+    .ant-form-item-control {
+      min-height: auto;
+      width: 100%;
+    }
+
+    .ant-form-item-control-input-content {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+    }
+
+    .ant-input,
+    .ant-input-password,
+    .ant-input-affix-wrapper {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #0A1B39;
+      display: flex;
+      align-items: center;
+
+      &::placeholder {
+        color: #83899F;
+        font-weight: 400;
+      }
+
+      &:focus,
+      &:hover {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+
+    .ant-input-password {
+      padding: 0 !important;
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-input-affix-wrapper {
+      background: transparent !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 10px !important;
+      width: 100% !important;
+      
+      .ant-input {
+        background: transparent !important;
+        flex: 1 !important;
+        order: 1 !important;
+      }
+
+      .ant-input-suffix {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 16px !important;
+        line-height: 1 !important;
+        order: 2 !important;
+        margin-left: auto !important;
+        
+        svg,
+        span {
+          width: 16px !important;
+          height: 16px !important;
+          font-size: 16px !important;
+        }
+      }
+    }
+
+    // 确保输入框内部元素都居中
+    input {
+      display: block;
+    width: 100%;
     }
   }
 }
 
+/* 验证码输入行 */
+.captchaWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+
+  .inputWrapper {
+    flex: 1;
+  }
+}
+
+.getCaptchaBtn {
+  background: #F2F3F5;
+  border-radius: 6px;
+  padding: 9px 12px;
+  height: 42px;
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #165DFF;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #E8EAED;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ========== 表单选项（记住我 / 忘记密码） ========== */
+.formOptions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  :global {
+    .ant-pro-form-item {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  :global {
+    .ant-checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ant-checkbox {
+      top: 0;
+    }
+
+    .ant-checkbox-inner {
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      border-color: #C9CDD4;
+    }
+
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: #165DFF;
+      border-color: #165DFF;
+    }
+  }
+}
+
+.checkboxText {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #0A1B39;
+}
+
+.forgotLink {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #165DFF;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #4080FF;
+  }
+}
+
+/* ========== 登录按钮 ========== */
+.loginButton {
+  width: 100%;
+  height: auto !important;
+  padding: 12px 16px !important;
+  background: #165DFF !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 28px !important;
+  color: #FFFFFF !important;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none !important;
+
+  &:hover {
+    background: #4080FF !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(22, 93, 255, 0.3) !important;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    background: #165DFF !important;
+  }
+}
+
+/* ========== 注册链接 ========== */
+.registerLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.registerText {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #0A1B39;
+}
+
+.registerAction {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #165DFF;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #4080FF;
+    text-decoration: underline;
+  }
+}
+
+/* ========== 响应式设计 ========== */
+@media (max-width: 1024px) {
+  .loginContainer {
+    justify-content: center;
+  }
+
+  .loginRight {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 40px 40px 40px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .loginFormWrapper {
+    width: 100%;
+  }
+
+  .bgImage {
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .loginRight {
+    padding: 24px;
+    max-width: 100%;
+  }
+
+  .loginFormWrapper {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .loginTitle {
+    font-size: 28px;
+    line-height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginRight {
+    padding: 16px;
+  }
+
+  .loginTitle {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+
+    svg {
+      width: 32px;
+      height: 26px;
+    }
+  }
+
+  .loginButton {
+    font-size: 18px !important;
+    letter-spacing: 2px;
+  }
+
+  .captchaWrapper {
+    flex-direction: column;
+    gap: 12px;
+
+    .getCaptchaBtn {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+}
