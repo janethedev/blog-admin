@@ -2,10 +2,15 @@
  * 应用运行时配置
  */
 
-import { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
+import {
+  history,
+  type RequestConfig,
+  type RunTimeLayoutConfig,
+} from '@umijs/max';
 import { message } from 'antd';
-import { getCurrentUser } from '@/services';
+import { AvatarDropdown } from '@/components';
 import { TOKEN_KEY } from '@/constants';
+import { getCurrentUser } from '@/services';
 import type { CurrentUser } from '@/types';
 
 // 全局初始状态
@@ -46,14 +51,18 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 配置
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layout: RunTimeLayoutConfig = ({
+  initialState,
+  setInitialState,
+}) => {
   return {
     // 右上角用户信息
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: initialState?.currentUser?.nickname,
       render: (_, avatarChildren) => {
-        return avatarChildren;
+        // 使用 AvatarDropdown 组件包裹头像，提供下拉菜单功能
+        return <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>;
       },
     },
     // 水印
@@ -75,6 +84,27 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     // 无权限时的处理
     unAccessible: <div>无权限访问</div>,
+    // 页面切换时的钩子 - 处理未登录跳转
+    onPageChange: () => {
+      const { location } = history;
+      const { currentUser } = initialState || {};
+
+      // 白名单：不需要登录就能访问的页面
+      const whiteList = ['/user/login'];
+
+      // 如果是白名单页面，直接返回
+      if (whiteList.includes(location.pathname)) {
+        return;
+      }
+
+      // 如果未登录，跳转到登录页
+      if (!currentUser) {
+        history.push({
+          pathname: '/user/login',
+          search: `?redirect=${encodeURIComponent(location.pathname + location.search)}`,
+        });
+      }
+    },
   };
 };
 
@@ -107,7 +137,7 @@ export const request: RequestConfig = {
           // 跳转到登录页
           if (window.location.pathname !== '/user/login') {
             window.location.href = `/user/login?redirect=${encodeURIComponent(
-              window.location.pathname + window.location.search
+              window.location.pathname + window.location.search,
             )}`;
           }
         }
