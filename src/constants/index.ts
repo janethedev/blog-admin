@@ -13,7 +13,7 @@ export const API_PATHS = {
     LOGOUT: `${API_BASE_URL}/auth/logout`,
     CURRENT_USER: `${API_BASE_URL}/auth/currentUser`,
   },
-  
+
   // 仪表盘相关
   DASHBOARD: {
     STATISTICS: `${API_BASE_URL}/dashboard/statistics`,
@@ -21,7 +21,7 @@ export const API_PATHS = {
     CATEGORY_DISTRIBUTION: `${API_BASE_URL}/dashboard/categoryDistribution`,
     RECENT_ARTICLES: `${API_BASE_URL}/dashboard/recentArticles`,
   },
-  
+
   // 文章相关
   ARTICLE: {
     LIST: `${API_BASE_URL}/articles`,
@@ -32,7 +32,7 @@ export const API_PATHS = {
     BATCH_DELETE: `${API_BASE_URL}/articles/batchDelete`,
     BATCH_UPDATE_STATUS: `${API_BASE_URL}/articles/batchUpdateStatus`,
   },
-  
+
   // 分类相关
   CATEGORY: {
     LIST: `${API_BASE_URL}/categories`,
@@ -40,7 +40,7 @@ export const API_PATHS = {
     UPDATE: (id: number) => `${API_BASE_URL}/categories/${id}`,
     DELETE: (id: number) => `${API_BASE_URL}/categories/${id}`,
   },
-  
+
   // 标签相关
   TAG: {
     LIST: `${API_BASE_URL}/tags`,
@@ -48,14 +48,14 @@ export const API_PATHS = {
     UPDATE: (id: number) => `${API_BASE_URL}/tags/${id}`,
     DELETE: (id: number) => `${API_BASE_URL}/tags/${id}`,
   },
-  
+
   // 用户相关
   USER: {
     PROFILE: `${API_BASE_URL}/user/profile`,
     AVATAR: `${API_BASE_URL}/user/avatar`,
     CHANGE_PASSWORD: `${API_BASE_URL}/user/changePassword`,
   },
-  
+
   // 上传相关
   UPLOAD: {
     IMAGE: `${API_BASE_URL}/upload/image`,
@@ -75,7 +75,6 @@ export const ARTICLE_STATUS_MAP = {
 // 用户角色映射
 export const USER_ROLE_MAP = {
   admin: { text: '管理员', color: 'red' },
-  editor: { text: '编辑', color: 'blue' },
 } as const;
 
 // 用户状态映射
@@ -96,15 +95,20 @@ export const USER_INFO_KEY = 'blog-admin-user';
 // 图片上传限制
 export const IMAGE_UPLOAD = {
   MAX_SIZE: 5 * 1024 * 1024, // 5MB
-  ACCEPT_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+  ACCEPT_TYPES: [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+  ],
   ACCEPT_EXTENSIONS: ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
 } as const;
 
 // 文章编辑器配置
 export const EDITOR_CONFIG = {
   AUTO_SAVE_INTERVAL: 30000, // 30秒自动保存
-  DEBOUNCE_DELAY: 3000,      // 3秒防抖
-  MAX_TITLE_LENGTH: 100,     // 标题最大长度
-  MAX_SUMMARY_LENGTH: 200,   // 摘要最大长度
+  DEBOUNCE_DELAY: 3000, // 3秒防抖
+  MAX_TITLE_LENGTH: 100, // 标题最大长度
+  MAX_SUMMARY_LENGTH: 200, // 摘要最大长度
 } as const;
-

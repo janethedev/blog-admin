@@ -21,19 +21,6 @@ export const users: User[] = [
     createTime: '2024-01-01T00:00:00Z',
     updateTime: new Date().toISOString(),
   },
-  {
-    id: 2,
-    username: 'editor',
-    password: 'e10adc3949ba59abbe56e057f20f883e', // MD5(editor123)
-    nickname: 'Jane',
-    avatar: 'https://avatars.githubusercontent.com/u/2',
-    email: 'editor@blog.com',
-    role: 'editor',
-    bio: '前端工程师，React 爱好者',
-    status: 'active',
-    createTime: '2024-02-01T00:00:00Z',
-    updateTime: new Date().toISOString(),
-  },
 ];
 
 // 分类数据

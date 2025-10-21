@@ -2,7 +2,7 @@
  * 应用运行时配置
  */
 
-import { AppstoreOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, UserOutlined } from '@ant-design/icons';
 import {
   history,
   type RequestConfig,
@@ -52,16 +52,13 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 配置
-export const layout: RunTimeLayoutConfig = ({
-  initialState,
-  setInitialState,
-}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     // 自定义 logo（和登录页面一致）
     logo: () => <AppstoreOutlined style={{ fontSize: 32, color: '#1890ff' }} />,
     // 右上角用户信息
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      icon: <UserOutlined />,
       title: initialState?.currentUser?.nickname,
       render: (_, avatarChildren) => {
         // 使用 AvatarDropdown 组件包裹头像，提供下拉菜单功能

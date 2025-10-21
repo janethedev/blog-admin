@@ -3,7 +3,7 @@
  */
 
 // 用户角色
-export type UserRole = 'admin' | 'editor';
+export type UserRole = 'admin';
 
 // 用户状态
 export type UserStatus = 'active' | 'disabled';
@@ -11,15 +11,15 @@ export type UserStatus = 'active' | 'disabled';
 // 用户信息
 export interface User {
   id: number;
-  username: string;              // 用户名（登录用）
-  password: string;              // 密码（加密存储）
-  nickname: string;              // 昵称（显示用）
-  avatar?: string;               // 头像URL
-  email: string;                 // 邮箱
-  role: UserRole;                // 角色
-  bio?: string;                  // 个人简介
-  status: UserStatus;            // 状态
-  lastLoginTime?: string;        // 最后登录时间
+  username: string; // 用户名（登录用）
+  password: string; // 密码（加密存储）
+  nickname: string; // 昵称（显示用）
+  avatar?: string; // 头像URL
+  email: string; // 邮箱
+  role: UserRole; // 角色
+  bio?: string; // 个人简介
+  status: UserStatus; // 状态
+  lastLoginTime?: string; // 最后登录时间
   createTime: string;
   updateTime: string;
 }
@@ -53,4 +53,3 @@ export interface UpdateProfileParams {
   bio?: string;
   avatar?: string;
 }
-

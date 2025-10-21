@@ -23,8 +23,7 @@ export default {
     
     // 简单的密码验证（实际应该用加密比对）
     const validPasswords: Record<string, string> = {
-      admin: 'janethedev',
-      editor: 'janethedev',
+      admin: 'janethedev'
     };
 
     if (user.password !== password && password !== validPasswords[username]) {
