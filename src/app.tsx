@@ -2,6 +2,7 @@
  * 应用运行时配置
  */
 
+import { AppstoreOutlined } from '@ant-design/icons';
 import {
   history,
   type RequestConfig,
@@ -56,6 +57,8 @@ export const layout: RunTimeLayoutConfig = ({
   setInitialState,
 }) => {
   return {
+    // 自定义 logo（和登录页面一致）
+    logo: () => <AppstoreOutlined style={{ fontSize: 32, color: '#1890ff' }} />,
     // 右上角用户信息
     avatarProps: {
       src: initialState?.currentUser?.avatar,

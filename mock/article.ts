@@ -73,8 +73,13 @@ export default {
       filteredArticles = filteredArticles.filter((a) => a.status === status);
     }
     
-    // 排序
+    // 排序：置顶文章始终在最前面
     filteredArticles.sort((a, b) => {
+      // 优先按置顶状态排序
+      if (a.isTop && !b.isTop) return -1;
+      if (!a.isTop && b.isTop) return 1;
+      
+      // 置顶状态相同时，按指定字段排序
       const field = sortField as string;
       let aValue: any = a[field as keyof Article];
       let bValue: any = b[field as keyof Article];

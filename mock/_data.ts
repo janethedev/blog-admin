@@ -227,8 +227,10 @@ export const articles: Article[] = Array.from({ length: 50 }, (_, index) => {
   const categoryId = mockjs.Random.integer(1, 5);
   const tagIds = mockjs.Random.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).slice(0, mockjs.Random.integer(1, 3));
   const status = mockjs.Random.boolean() ? 'published' : 'draft';
-  const createTime = mockjs.Random.datetime('yyyy-MM-ddTHH:mm:ss') + 'Z';
-  const updateTime = mockjs.Random.datetime('yyyy-MM-ddTHH:mm:ss') + 'Z';
+  // 生成最近 1-30 天的创建时间
+  const createTime = new Date(Date.now() - mockjs.Random.integer(1, 30) * 24 * 60 * 60 * 1000).toISOString();
+  // 生成最近 0-7 天的更新时间
+  const updateTime = new Date(Date.now() - mockjs.Random.integer(0, 7) * 24 * 60 * 60 * 1000).toISOString();
   
   const title = articleTitles[index] || mockjs.Random.ctitle(10, 30);
   const content = articleContentTemplate

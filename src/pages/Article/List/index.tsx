@@ -5,14 +5,19 @@
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, message, Popconfirm, Space, Tag } from 'antd';
-import { useEffect, useRef, useState } from 'react';
 import { history } from '@umijs/max';
-import { getArticleList, deleteArticle, batchDeleteArticles, batchUpdateArticleStatus } from '@/services';
-import { getCategoryList } from '@/services';
-import { getTagList } from '@/services';
-import type { ArticleListItem, Category, Tag as TagType } from '@/types';
+import { Button, message, Popconfirm, Space, Tag } from 'antd';
 import dayjs from 'dayjs';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  batchDeleteArticles,
+  batchUpdateArticleStatus,
+  deleteArticle,
+  getArticleList,
+  getCategoryList,
+  getTagList,
+} from '@/services';
+import type { ArticleListItem, Category, Tag as TagType } from '@/types';
 
 export default function ArticleList() {
   const actionRef = useRef<ActionType>(null as any);
@@ -85,9 +90,14 @@ export default function ArticleList() {
       return;
     }
     try {
-      const result = await batchUpdateArticleStatus({ ids: selectedRowKeys, status });
+      const result = await batchUpdateArticleStatus({
+        ids: selectedRowKeys,
+        status,
+      });
       if (result.success) {
-        message.success(`成功${status === 'published' ? '发布' : '设为草稿'} ${selectedRowKeys.length} 篇文章`);
+        message.success(
+          `成功${status === 'published' ? '发布' : '设为草稿'} ${selectedRowKeys.length} 篇文章`,
+        );
         setSelectedRowKeys([]);
         actionRef.current?.reload();
       } else {
@@ -98,118 +108,128 @@ export default function ArticleList() {
     }
   };
 
-  const columns: ProColumns<ArticleListItem>[] = [
-    {
-      title: '标题',
-      dataIndex: 'title',
-      width: 300,
-      ellipsis: true,
-      render: (_, record) => (
-        <a onClick={() => history.push(`/article/edit/${record.id}`)}>
-          {record.title}
-        </a>
-      ),
-    },
-    {
-      title: '分类',
-      dataIndex: ['category', 'name'],
-      width: 120,
-      valueType: 'select',
-      request: async () => {
-        return categories.map((cat) => ({
-          label: cat.name,
-          value: cat.id,
-        }));
+  const columns: ProColumns<ArticleListItem>[] = useMemo(
+    () => [
+      {
+        title: '标题',
+        dataIndex: 'title',
+        ellipsis: true,
+        render: (_, record) => (
+          <a onClick={() => history.push(`/article/edit/${record.id}`)}>
+            {record.title}
+          </a>
+        ),
       },
-      fieldProps: {
-        showSearch: true,
+      {
+        title: '分类',
+        dataIndex: 'categoryId',
+        width: 100,
+        valueType: 'select',
+        valueEnum: categories.reduce(
+          (acc, cat) => {
+            acc[cat.id] = { text: cat.name };
+            return acc;
+          },
+          {} as Record<number, { text: string }>,
+        ),
+        render: (_, record) => record.category?.name || '-',
+        fieldProps: {
+          showSearch: true,
+        },
       },
-    },
-    {
-      title: '标签',
-      dataIndex: 'tags',
-      width: 200,
-      hideInSearch: true,
-      render: (_, record) => (
-        <Space size={[0, 8]} wrap>
-          {record.tags.map((tag) => (
-            <Tag key={tag.id} color={tag.color}>
-              {tag.name}
-            </Tag>
-          ))}
-        </Space>
-      ),
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      width: 100,
-      valueType: 'select',
-      valueEnum: {
-        all: { text: '全部', status: 'Default' },
-        published: { text: '已发布', status: 'Success' },
-        draft: { text: '草稿', status: 'Default' },
+      {
+        title: '标签',
+        dataIndex: 'tags',
+        width: 180,
+        hideInSearch: true,
+        render: (_, record) => (
+          <Space size={[0, 8]} wrap>
+            {record.tags.map((tag) => (
+              <Tag key={tag.id} color={tag.color}>
+                {tag.name}
+              </Tag>
+            ))}
+          </Space>
+        ),
       },
-      render: (_, record) => (
-        <Tag color={record.status === 'published' ? 'success' : 'default'}>
-          {record.status === 'published' ? '已发布' : '草稿'}
-        </Tag>
-      ),
-    },
-    {
-      title: '浏览量',
-      dataIndex: 'viewCount',
-      width: 100,
-      hideInSearch: true,
-      sorter: true,
-    },
-    {
-      title: '评论数',
-      dataIndex: 'commentCount',
-      width: 100,
-      hideInSearch: true,
-    },
-    {
-      title: '置顶',
-      dataIndex: 'isTop',
-      width: 80,
-      hideInSearch: true,
-      render: (_, record) => record.isTop ? <Tag color="red">置顶</Tag> : '-',
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updateTime',
-      width: 180,
-      valueType: 'dateTime',
-      hideInSearch: true,
-      render: (_, record) => dayjs(record.updateTime).format('YYYY-MM-DD HH:mm'),
-      sorter: true,
-    },
-    {
-      title: '操作',
-      valueType: 'option',
-      width: 150,
-      fixed: 'right',
-      render: (_, record) => [
-        <a
-          key="edit"
-          onClick={() => history.push(`/article/edit/${record.id}`)}
-        >
-          编辑
-        </a>,
-        <Popconfirm
-          key="delete"
-          title="确认删除"
-          description="确定要删除这篇文章吗？"
-          onConfirm={() => handleDelete(record.id)}
-          okText="确定"
-          cancelText="取消"
-        >
-          <a style={{ color: 'red' }}>删除</a>
-        </Popconfirm>,
-      ],
-    },
-  ];
+      {
+        title: '状态',
+        dataIndex: 'status',
+        width: 90,
+        valueType: 'select',
+        valueEnum: {
+          all: { text: '全部', status: 'Default' },
+          published: { text: '已发布', status: 'Success' },
+          draft: { text: '草稿', status: 'Default' },
+        },
+        render: (_, record) => (
+          <Tag color={record.status === 'published' ? 'success' : 'default'}>
+            {record.status === 'published' ? '已发布' : '草稿'}
+          </Tag>
+        ),
+      },
+      {
+        title: '浏览',
+        dataIndex: 'viewCount',
+        width: 80,
+        hideInSearch: true,
+        sorter: true,
+      },
+      {
+        title: '评论',
+        dataIndex: 'commentCount',
+        width: 80,
+        hideInSearch: true,
+      },
+      {
+        title: '置顶',
+        dataIndex: 'isTop',
+        width: 70,
+        hideInSearch: true,
+        render: (_, record) =>
+          record.isTop ? <Tag color="red">置顶</Tag> : '-',
+      },
+      {
+        title: '更新时间',
+        dataIndex: 'updateTime',
+        width: 150,
+        hideInSearch: true,
+        render: (_, record) => {
+          const time = record.updateTime;
+          if (!time) return '-';
+          return dayjs(time).isValid()
+            ? dayjs(time).format('YYYY-MM-DD HH:mm')
+            : '-';
+        },
+        sorter: true,
+      },
+      {
+        title: '操作',
+        valueType: 'option',
+        width: 120,
+        fixed: 'right',
+        render: (_, record) => [
+          <a
+            key="edit"
+            onClick={() => history.push(`/article/edit/${record.id}`)}
+          >
+            编辑
+          </a>,
+          <Popconfirm
+            key="delete"
+            title="确认删除"
+            description="确定要删除这篇文章吗？"
+            onConfirm={() => handleDelete(record.id)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <a style={{ color: 'red' }}>删除</a>
+          </Popconfirm>,
+        ],
+      },
+    ],
+    [categories, handleDelete],
+  );
 
   return (
     <ProTable<ArticleListItem>
@@ -236,10 +256,17 @@ export default function ArticleList() {
             pageNum: params.current || 1,
             pageSize: params.pageSize || 10,
             keyword: params.title,
-            categoryId: params.category,
+            categoryId: params.categoryId,
             status: params.status === 'all' ? undefined : params.status,
-            sortField: sortField as 'createTime' | 'viewCount' | 'updateTime' | undefined,
-            sortOrder: sort && Object.values(sort)[0] === 'ascend' ? 'ascend' : 'descend',
+            sortField: sortField as
+              | 'createTime'
+              | 'viewCount'
+              | 'updateTime'
+              | undefined,
+            sortOrder:
+              sort && Object.values(sort)[0] === 'ascend'
+                ? 'ascend'
+                : 'descend',
           });
 
           if (result.success) {
