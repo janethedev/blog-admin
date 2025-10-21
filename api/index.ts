@@ -43,35 +43,29 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     };
     const user = users.find((u) => u.username === username);
     if (!user) {
-      return res
-        .status(200)
-        .json({
-          success: false,
-          errorCode: '2003',
-          errorMessage: '用户名或密码错误',
-        });
+      return res.status(200).json({
+        success: false,
+        errorCode: '2003',
+        errorMessage: '用户名或密码错误',
+      });
     }
     const validPasswords: Record<string, string> = { admin: 'janethedev' };
     if (
       user.password !== password &&
       password !== validPasswords[username || '']
     ) {
-      return res
-        .status(200)
-        .json({
-          success: false,
-          errorCode: '2003',
-          errorMessage: '用户名或密码错误',
-        });
+      return res.status(200).json({
+        success: false,
+        errorCode: '2003',
+        errorMessage: '用户名或密码错误',
+      });
     }
     const { password: _omit, ...userInfo } = user as any;
     user.lastLoginTime = new Date().toISOString();
-    return res
-      .status(200)
-      .json({
-        success: true,
-        data: { token: `mock-token-${user.id}-${Date.now()}`, user: userInfo },
-      });
+    return res.status(200).json({
+      success: true,
+      data: { token: `mock-token-${user.id}-${Date.now()}`, user: userInfo },
+    });
   }
 
   // GET /api/auth/currentUser
@@ -80,13 +74,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       req.headers['Authorization']) as string | undefined;
     const token = authHeader?.replace('Bearer ', '');
     if (!token) {
-      return res
-        .status(200)
-        .json({
-          success: false,
-          errorCode: '2001',
-          errorMessage: '未登录或登录已过期',
-        });
+      return res.status(200).json({
+        success: false,
+        errorCode: '2001',
+        errorMessage: '未登录或登录已过期',
+      });
     }
     const user = users[0];
     const { password: _omit, ...userInfo } = user as any;
@@ -131,13 +123,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     if (endpoint === 'batchDelete' && method === 'POST') {
       const { ids } = req.body;
       if (!Array.isArray(ids) || ids.length === 0) {
-        return res
-          .status(200)
-          .json({
-            success: false,
-            errorCode: '1001',
-            errorMessage: '参数错误',
-          });
+        return res.status(200).json({
+          success: false,
+          errorCode: '1001',
+          errorMessage: '参数错误',
+        });
       }
       ids.forEach((id) => {
         const index = articles.findIndex((a) => a.id === id);
@@ -165,13 +155,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     if (endpoint === 'batchUpdateStatus' && method === 'POST') {
       const { ids, status } = req.body;
       if (!Array.isArray(ids) || ids.length === 0) {
-        return res
-          .status(200)
-          .json({
-            success: false,
-            errorCode: '1001',
-            errorMessage: '参数错误',
-          });
+        return res.status(200).json({
+          success: false,
+          errorCode: '1001',
+          errorMessage: '参数错误',
+        });
       }
       ids.forEach((id) => {
         const article = articles.find((a) => a.id === id);
@@ -213,13 +201,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       if (method === 'GET') {
         const article = articles.find((a) => a.id === articleId);
         if (!article) {
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3001',
-              errorMessage: '文章不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3001',
+            errorMessage: '文章不存在',
+          });
         }
         const category = categories.find((c) => c.id === article.categoryId);
         const articleTags = tags.filter((t) => article.tags.includes(t.id));
@@ -243,13 +229,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         const updateData = req.body;
         const index = articles.findIndex((a) => a.id === articleId);
         if (index === -1) {
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3001',
-              errorMessage: '文章不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3001',
+            errorMessage: '文章不存在',
+          });
         }
         const oldArticle = articles[index];
         const updatedArticle = {
@@ -265,25 +249,21 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
           updatedArticle.publishTime = new Date().toISOString();
         }
         articles[index] = updatedArticle;
-        return res
-          .status(200)
-          .json({
-            success: true,
-            data: updatedArticle,
-            message: '文章更新成功',
-          });
+        return res.status(200).json({
+          success: true,
+          data: updatedArticle,
+          message: '文章更新成功',
+        });
       }
       // DELETE /api/articles/:id
       if (method === 'DELETE') {
         const index = articles.findIndex((a) => a.id === articleId);
         if (index === -1) {
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3001',
-              errorMessage: '文章不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3001',
+            errorMessage: '文章不存在',
+          });
         }
         const article = articles[index];
         if (article.status === 'published') {
@@ -350,17 +330,15 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         (page - 1) * size,
         page * size,
       );
-      return res
-        .status(200)
-        .json({
-          success: true,
-          data: {
-            list: paginatedArticles.map(toListItem),
-            total: filteredArticles.length,
-            pageNum: page,
-            pageSize: size,
-          },
-        });
+      return res.status(200).json({
+        success: true,
+        data: {
+          list: paginatedArticles.map(toListItem),
+          total: filteredArticles.length,
+          pageNum: page,
+          pageSize: size,
+        },
+      });
     }
 
     // POST /api/articles - create
@@ -406,24 +384,20 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         const updateData = req.body;
         const index = categories.findIndex((c) => c.id === categoryId);
         if (index === -1)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '1004',
-              errorMessage: '分类不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '1004',
+            errorMessage: '分类不存在',
+          });
         const exists = categories.find(
           (c) => c.name === updateData.name && c.id !== categoryId,
         );
         if (exists)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3004',
-              errorMessage: '分类名称已存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3004',
+            errorMessage: '分类名称已存在',
+          });
         const updatedCategory = {
           ...categories[index],
           ...updateData,
@@ -432,35 +406,29 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
           updateTime: new Date().toISOString(),
         };
         categories[index] = updatedCategory;
-        return res
-          .status(200)
-          .json({
-            success: true,
-            data: updatedCategory,
-            message: '分类更新成功',
-          });
+        return res.status(200).json({
+          success: true,
+          data: updatedCategory,
+          message: '分类更新成功',
+        });
       }
       // DELETE /api/categories/:id
       if (method === 'DELETE') {
         const index = categories.findIndex((c) => c.id === categoryId);
         if (index === -1)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '1004',
-              errorMessage: '分类不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '1004',
+            errorMessage: '分类不存在',
+          });
         const category = categories[index];
         const hasArticles = articles.some((a) => a.categoryId === category.id);
         if (hasArticles)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3002',
-              errorMessage: `该分类下还有 ${category.articleCount} 篇文章，无法删除`,
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3002',
+            errorMessage: `该分类下还有 ${category.articleCount} 篇文章，无法删除`,
+          });
         categories.splice(index, 1);
         return res.status(200).json({ success: true, message: '分类删除成功' });
       }
@@ -474,13 +442,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       const categoryData = req.body;
       const exists = categories.find((c) => c.name === categoryData.name);
       if (exists)
-        return res
-          .status(200)
-          .json({
-            success: false,
-            errorCode: '3004',
-            errorMessage: '分类名称已存在',
-          });
+        return res.status(200).json({
+          success: false,
+          errorCode: '3004',
+          errorMessage: '分类名称已存在',
+        });
       const newCategory: Category = {
         id: categories.length + 1,
         ...categoryData,
@@ -495,6 +461,91 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
+  // ==================== User Routes ====================
+  // PUT /api/user/profile
+  if (url.includes('/api/user/profile') && method === 'PUT') {
+    const updateData = req.body;
+    const userId = 1; // 简化处理，实际应从 token 解析
+    const user = users.find((u) => u.id === userId);
+    if (!user) {
+      return res.status(200).json({
+        success: false,
+        errorCode: '1004',
+        errorMessage: '用户不存在',
+      });
+    }
+    Object.assign(user, {
+      ...updateData,
+      updateTime: new Date().toISOString(),
+    });
+    const { password: _omit, ...userInfo } = user as any;
+    return res
+      .status(200)
+      .json({ success: true, data: userInfo, message: '个人信息更新成功' });
+  }
+
+  // POST /api/user/avatar
+  if (url.includes('/api/user/avatar') && method === 'POST') {
+    const userId = 1;
+    const user = users.find((u) => u.id === userId);
+    if (!user) {
+      return res.status(200).json({
+        success: false,
+        errorCode: '1004',
+        errorMessage: '用户不存在',
+      });
+    }
+    const avatarUrl = `https://avatars.githubusercontent.com/u/${Date.now()}`;
+    user.avatar = avatarUrl;
+    user.updateTime = new Date().toISOString();
+    return res.status(200).json({
+      success: true,
+      data: { url: avatarUrl, filename: 'avatar.jpg', size: 102400 },
+      message: '头像上传成功',
+    });
+  }
+
+  // POST /api/user/changePassword
+  if (url.includes('/api/user/changePassword') && method === 'POST') {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return res.status(200).json({
+        success: false,
+        errorCode: '1001',
+        errorMessage: '参数不完整',
+      });
+    }
+    if (newPassword !== confirmPassword) {
+      return res.status(200).json({
+        success: false,
+        errorCode: '1001',
+        errorMessage: '两次输入的密码不一致',
+      });
+    }
+    const userId = 1;
+    const user = users.find((u) => u.id === userId);
+    if (!user) {
+      return res.status(200).json({
+        success: false,
+        errorCode: '1004',
+        errorMessage: '用户不存在',
+      });
+    }
+    // 验证旧密码
+    if (oldPassword !== 'janethedev' && user.password !== oldPassword) {
+      return res
+        .status(200)
+        .json({
+          success: false,
+          errorCode: '1001',
+          errorMessage: '旧密码错误',
+        });
+    }
+    user.password = newPassword;
+    user.updateTime = new Date().toISOString();
+    return res.status(200).json({ success: true, message: '密码修改成功' });
+  }
+
   // ==================== Tags Routes ====================
   const tagsMatch = url.match(/\/api\/tags(?:\/([^?]+))?/);
   if (tagsMatch) {
@@ -506,24 +557,20 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         const updateData = req.body;
         const index = tags.findIndex((t) => t.id === tagId);
         if (index === -1)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '1004',
-              errorMessage: '标签不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '1004',
+            errorMessage: '标签不存在',
+          });
         const exists = tags.find(
           (t) => t.name === updateData.name && t.id !== tagId,
         );
         if (exists)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3005',
-              errorMessage: '标签名称已存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3005',
+            errorMessage: '标签名称已存在',
+          });
         const updatedTag = {
           ...tags[index],
           ...updateData,
@@ -540,23 +587,19 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       if (method === 'DELETE') {
         const index = tags.findIndex((t) => t.id === tagId);
         if (index === -1)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '1004',
-              errorMessage: '标签不存在',
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '1004',
+            errorMessage: '标签不存在',
+          });
         const tag = tags[index];
         const hasArticles = articles.some((a) => a.tags.includes(tag.id));
         if (hasArticles)
-          return res
-            .status(200)
-            .json({
-              success: false,
-              errorCode: '3003',
-              errorMessage: `该标签下还有 ${tag.articleCount} 篇文章，无法删除`,
-            });
+          return res.status(200).json({
+            success: false,
+            errorCode: '3003',
+            errorMessage: `该标签下还有 ${tag.articleCount} 篇文章，无法删除`,
+          });
         tags.splice(index, 1);
         return res.status(200).json({ success: true, message: '标签删除成功' });
       }
@@ -578,13 +621,11 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       const tagData = req.body;
       const exists = tags.find((t) => t.name === tagData.name);
       if (exists)
-        return res
-          .status(200)
-          .json({
-            success: false,
-            errorCode: '3005',
-            errorMessage: '标签名称已存在',
-          });
+        return res.status(200).json({
+          success: false,
+          errorCode: '3005',
+          errorMessage: '标签名称已存在',
+        });
       const newTag: Tag = {
         id: tags.length + 1,
         ...tagData,
