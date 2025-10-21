@@ -22,7 +22,12 @@ export default {
     }
     
     // 简单的密码验证（实际应该用加密比对）
-    if (user.password !== password && password !== 'admin123' && password !== 'editor123') {
+    const validPasswords: Record<string, string> = {
+      admin: 'janethedev',
+      editor: 'janethedev',
+    };
+
+    if (user.password !== password && password !== validPasswords[username]) {
       return res.status(200).json({
         success: false,
         errorCode: '2003',

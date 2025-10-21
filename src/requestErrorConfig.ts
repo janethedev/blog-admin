@@ -100,9 +100,10 @@ export const errorConfig: RequestConfig = {
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
 
-      if (data?.success === false) {
-        message.error('请求失败！');
-      }
+      // 错误消息由具体的页面或 errorHandler 处理，这里不再显示通用消息
+      // if (data?.success === false) {
+      //   message.error('请求失败！');
+      // }
       return response;
     },
   ],
