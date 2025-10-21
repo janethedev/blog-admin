@@ -14,8 +14,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
-  const pathArray = (req.query.path as string[]) || [];
-  const endpoint = pathArray[0];
+  // 从 URL 中提取路径，例如 /api/dashboard/statistics -> 'statistics'
+  const url = req.url || '';
+  const pathMatch = url.match(/\/api\/dashboard\/([^?]+)/);
+  const endpoint = pathMatch ? pathMatch[1] : '';
 
   // GET /api/dashboard/statistics
   if (endpoint === 'statistics') {

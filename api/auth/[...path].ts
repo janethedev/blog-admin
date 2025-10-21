@@ -2,8 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { users } from '../../mock/_data';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  const pathArray = (req.query.path as string[]) || [];
-  const endpoint = pathArray[0];
+  // 从 URL 中提取路径，例如 /api/auth/login -> 'login'
+  const url = req.url || '';
+  const pathMatch = url.match(/\/api\/auth\/([^?]+)/);
+  const endpoint = pathMatch ? pathMatch[1] : '';
 
   // POST /api/auth/login
   if (endpoint === 'login' && req.method === 'POST') {

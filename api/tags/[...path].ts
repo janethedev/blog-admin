@@ -3,8 +3,10 @@ import { articles, tags } from '../../mock/_data';
 import type { Tag } from '../../src/types';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  const pathArray = (req.query.path as string[]) || [];
-  const endpoint = pathArray[0];
+  // 从 URL 中提取路径，例如 /api/tags/1 -> '1'
+  const url = req.url || '';
+  const pathMatch = url.match(/\/api\/tags\/([^?]+)/);
+  const endpoint = pathMatch ? pathMatch[1] : '';
 
   // 处理带 ID 的路由：PUT/DELETE /api/tags/:id
   if (endpoint && !isNaN(Number(endpoint))) {

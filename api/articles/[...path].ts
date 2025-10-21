@@ -24,8 +24,10 @@ const toListItem = (article: Article): ArticleListItem => {
 };
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  const pathArray = (req.query.path as string[]) || [];
-  const endpoint = pathArray[0];
+  // 从 URL 中提取路径，例如 /api/articles/123 -> '123', /api/articles/batchDelete -> 'batchDelete'
+  const url = req.url || '';
+  const pathMatch = url.match(/\/api\/articles\/([^?]+)/);
+  const endpoint = pathMatch ? pathMatch[1] : '';
 
   // POST /api/articles/batchDelete
   if (endpoint === 'batchDelete' && req.method === 'POST') {

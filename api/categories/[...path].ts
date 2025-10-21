@@ -3,8 +3,10 @@ import { articles, categories } from '../../mock/_data';
 import type { Category } from '../../src/types';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  const pathArray = (req.query.path as string[]) || [];
-  const endpoint = pathArray[0];
+  // 从 URL 中提取路径，例如 /api/categories/1 -> '1'
+  const url = req.url || '';
+  const pathMatch = url.match(/\/api\/categories\/([^?]+)/);
+  const endpoint = pathMatch ? pathMatch[1] : '';
 
   // 处理带 ID 的路由：PUT/DELETE /api/categories/:id
   if (endpoint && !isNaN(Number(endpoint))) {
