@@ -291,10 +291,15 @@ export const generateVisitTrend = (days: number = 7) => {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
     
+    // 先生成访客数，然后基于访客数生成访问量
+    const visitors = mockjs.Random.integer(100, 300);
+    // 访问量 = 访客数 × (1 到 2.5 之间的倍数)，确保 views >= visitors
+    const views = Math.floor(visitors * mockjs.Random.float(1, 2.5, 2, 2));
+    
     data.push({
       date: date.toISOString().split('T')[0],
-      views: mockjs.Random.integer(200, 500),
-      visitors: mockjs.Random.integer(100, 300),
+      views,
+      visitors,
     });
   }
   

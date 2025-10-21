@@ -13,7 +13,11 @@ interface VisitTrendChartProps {
   onDaysChange?: (days: number) => void;
 }
 
-export default function VisitTrendChart({ data, loading, onDaysChange }: VisitTrendChartProps) {
+export default function VisitTrendChart({
+  data,
+  loading,
+  onDaysChange,
+}: VisitTrendChartProps) {
   const [days, setDays] = useState<number>(7);
 
   const handleDaysChange = (value: number) => {
@@ -22,10 +26,11 @@ export default function VisitTrendChart({ data, loading, onDaysChange }: VisitTr
   };
 
   // 转换数据格式用于多条线（在配置之前）
-  const chartData = data?.flatMap((item) => [
-    { date: item.date, value: item.views, type: '访问量' },
-    { date: item.date, value: item.visitors, type: '访客数' },
-  ]) || [];
+  const chartData =
+    data?.flatMap((item) => [
+      { date: item.date, value: item.views, type: '访问量' },
+      { date: item.date, value: item.visitors, type: '访客数' },
+    ]) || [];
 
   const config = {
     data: chartData,
@@ -53,9 +58,6 @@ export default function VisitTrendChart({ data, loading, onDaysChange }: VisitTr
         formatter: (v: string) => String(v),
       },
     },
-    tooltip: {
-      showMarkers: true,
-    },
     point: {
       size: 3,
       shape: 'circle',
@@ -69,7 +71,10 @@ export default function VisitTrendChart({ data, loading, onDaysChange }: VisitTr
     <Card
       title="访问趋势"
       extra={
-        <Radio.Group value={days} onChange={(e) => handleDaysChange(e.target.value)}>
+        <Radio.Group
+          value={days}
+          onChange={(e) => handleDaysChange(e.target.value)}
+        >
           <Radio.Button value={7}>近7天</Radio.Button>
           <Radio.Button value={30}>近30天</Radio.Button>
           <Radio.Button value={90}>近90天</Radio.Button>
@@ -83,4 +88,3 @@ export default function VisitTrendChart({ data, loading, onDaysChange }: VisitTr
     </Card>
   );
 }
-
