@@ -231,7 +231,7 @@ function LoginPage() {
                     name="password"
                     fieldProps={{
                       size: 'large',
-                      placeholder: '密码：admin123',
+                      placeholder: '密码：janethedev',
                       variant: 'borderless',
                       autoComplete: 'current-password',
                       iconRender: (visible) =>

@@ -100,7 +100,7 @@ export default {
     }
     
     // 验证旧密码（简化处理）
-    if (oldPassword !== 'admin123' && user.password !== oldPassword) {
+    if (oldPassword !== 'janethedev' && user.password !== oldPassword) {
       return res.status(200).json({
         success: false,
         errorCode: '1001',

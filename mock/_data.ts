@@ -10,12 +10,12 @@ export const users: User[] = [
   {
     id: 1,
     username: 'admin',
-    password: 'e10adc3949ba59abbe56e057f20f883e', // MD5(admin123)
+    password: 'e10adc3949ba59abbe56e057f20f883e', // MD5(janethedev)
     nickname: 'Administrator',
     avatar: 'https://avatars.githubusercontent.com/u/1',
     email: 'admin@blog.com',
     role: 'admin',
-    bio: '全栈开发者，热爱技术分享',
+    bio: '你好我好大家好。',
     status: 'active',
     lastLoginTime: new Date().toISOString(),
     createTime: '2024-01-01T00:00:00Z',

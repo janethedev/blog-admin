@@ -61,7 +61,7 @@ yarn start
 
 | 用户名 | 密码 | 角色 |
 |--------|------|------|
-| admin | admin123 | 管理员 |
+| admin | janethedev | 管理员 |
 
 ### 构建生产版本
 
