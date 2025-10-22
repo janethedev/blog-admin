@@ -5,6 +5,7 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { StatisticCard } from '@ant-design/pro-components';
 import { Col, Row } from 'antd';
+import React from 'react';
 import type { DashboardStatistics } from '@/types';
 
 interface StatisticCardsProps {
@@ -36,11 +37,7 @@ export default function StatisticCards({ data, loading }: StatisticCardsProps) {
             description: renderTrend(data?.articleGrowth || 0),
           }}
           loading={loading}
-          chart={
-            <div style={{ height: 46 }}>
-              {/* 可以添加迷你图表 */}
-            </div>
-          }
+          chart={<div style={{ height: 46 }}>{/* 可以添加迷你图表 */}</div>}
         />
       </Col>
       <Col xs={24} sm={12} lg={6}>
@@ -51,11 +48,7 @@ export default function StatisticCards({ data, loading }: StatisticCardsProps) {
             description: renderTrend(data?.viewGrowth || 0),
           }}
           loading={loading}
-          chart={
-            <div style={{ height: 46 }}>
-              {/* 可以添加迷你图表 */}
-            </div>
-          }
+          chart={<div style={{ height: 46 }}>{/* 可以添加迷你图表 */}</div>}
         />
       </Col>
       <Col xs={24} sm={12} lg={6}>
@@ -67,11 +60,7 @@ export default function StatisticCards({ data, loading }: StatisticCardsProps) {
             description: renderTrend(data?.commentGrowth || 0),
           }}
           loading={loading}
-          chart={
-            <div style={{ height: 46 }}>
-              {/* 可以添加迷你图表 */}
-            </div>
-          }
+          chart={<div style={{ height: 46 }}>{/* 可以添加迷你图表 */}</div>}
         />
       </Col>
       <Col xs={24} sm={12} lg={6}>
@@ -83,14 +72,9 @@ export default function StatisticCards({ data, loading }: StatisticCardsProps) {
             description: renderTrend(data?.userGrowth || 0),
           }}
           loading={loading}
-          chart={
-            <div style={{ height: 46 }}>
-              {/* 可以添加迷你图表 */}
-            </div>
-          }
+          chart={<div style={{ height: 46 }}>{/* 可以添加迷你图表 */}</div>}
         />
       </Col>
     </Row>
   );
 }
-
